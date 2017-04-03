@@ -8,13 +8,13 @@ import time
 
 ####################### Database
 
-import psycopg2
-
-conn = psycopg2.connect(database="testdb", user="postgres", password="12345", host="127.0.0.1", port="5432")
-
-print ("Opened database successfully")
-
-cur = conn.cursor()
+##import psycopg2
+##
+##conn = psycopg2.connect(database="testdb", user="postgres", password="12345", host="127.0.0.1", port="5432")
+##
+##print ("Opened database successfully")
+##
+##cur = conn.cursor()
 
 ##
 ##     #### CREATE TABLE  ####
@@ -55,7 +55,7 @@ browser.get("https://www.olx.co.cr/autos-cat-378")
 
 conta2 = 1
 
-while(conta2<10):
+while(conta2<400):
    elements = browser.find_elements_by_xpath("//*[@class='item featuredad  highlighted']")
    elements2 = browser.find_elements_by_xpath("//*[@class='item  highlighted']")
    elements3 = browser.find_elements_by_xpath("//*[@class='item ']")
@@ -66,7 +66,6 @@ while(conta2<10):
    conta = 1
    while(conta<tam):
 
-      //*[@id="items-list-view"]/ul/li[1]/a/p[2]
        browser.find_element_by_xpath("//*[@id='items-list-view']/ul/li[" + str(conta) +"]/a").click()
 
 
@@ -153,17 +152,37 @@ while(conta2<10):
            phone = browser.find_element_by_xpath("//*[@id='item_index_view']/article/aside/div[1]/div[3]/strong")
            phone = phone.text
 
-       if (len(browser.find_elements_by_xpath("//*[@id='item_index_view']/article/div/section[1]/section/figure/a[1]/img")) == 0):
-           imageSrc = "No data"
-       else:
-           image = browser.find_element_by_xpath("//*[@id='item_index_view']/article/div/section[1]/section/figure/a[1]/img")
-           imageSrc = image.get_attribute("href")
+       if (len(browser.find_elements_by_xpath('//*[@id="item_index_view"]/article/div/section[1]/section/figure/a/img')) == 0):
+           imageSrc = "No data"  
+       else:                     
+           image = browser.find_element_by_xpath('//*[@id="item_index_view"]/article/div/section[1]/section/figure/a/img')
+           ##imageSrc = image.text
+           imageSrc = image.get_attribute("src")
 
-       try:
-          cur.execute("INSERT INTO CAR_DATA (TITLE,HOUR,UBICATION,PRICE,ANNO,USAGE,KM,GAS,TRANS,MODEL,COLOR,DESCRIPTION,SELLER,PHONE,IMAGE) VALUES ('" + title + "','" + hour + "','" + ubication + "','" +  price + "','" + anno + "','" + usage+ "','" + km + "','" + gas + "','" + trans + "','" + model + "','" + color + "','" + description + "','" + seller + "','" + phone + "','" + imageSrc + "')");
-          conn.commit()
-       except:
-          pass
+       print("------Informacion------\n")
+       print("Título: " + title)
+       print("Hora Publicacion: " + hour)
+       print("Ubicacion: " + ubication)
+       print("Price: " + price)
+       print("Anno: " + str(anno))
+       print("Uso: " + usage)
+       print("Kilometraje: " + str(km))
+       print("Combustible: " + gas)
+       print("Transmisión: "+ trans)
+       print("Modelo: " + model)
+       print("Color: " + color)
+       print("Descripcion: " + description)
+       print("Vendedor: " + seller)
+       print("Teléfono: " + phone)
+       print("Imagen: " + str(imageSrc))
+       print("\n")
+   
+      
+##       try:
+##          cur.execute("INSERT INTO CAR_DATA (TITLE,HOUR,UBICATION,PRICE,ANNO,USAGE,KM,GAS,TRANS,MODEL,COLOR,DESCRIPTION,SELLER,PHONE,IMAGE) VALUES ('" + title + "','" + hour + "','" + ubication + "','" +  price + "','" + anno + "','" + usage+ "','" + km + "','" + gas + "','" + trans + "','" + model + "','" + color + "','" + description + "','" + seller + "','" + phone + "','" + imageSrc + "')");
+##          conn.commit()
+##       except:
+##          pass
        
        conta+=1  
        browser.back()
